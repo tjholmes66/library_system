@@ -1,6 +1,7 @@
 package com.librarysystem.server.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -82,6 +83,25 @@ public class BookServiceImpl implements BookService
         book.setCheckedOutDate(checkedOutDate);
         book = bookDao.update(book);
         return book;
+    }
+
+    @Override
+    public List<BookEntity> searchBooks(String author, Long categoryId)
+    {
+        List<BookEntity> bookList = new ArrayList<BookEntity>();
+        if (author != null && categoryId != null)
+        {
+            bookList = bookDao.searchBooks(author, categoryId);
+        }
+        else if (author == null && categoryId != null)
+        {
+            bookList = bookDao.getBooksByCategory(categoryId);
+        }
+        else if (author != null && categoryId == null)
+        {
+            bookList = bookDao.getBooksByAuthor(author);
+        }
+        return bookList;
     }
 
 }

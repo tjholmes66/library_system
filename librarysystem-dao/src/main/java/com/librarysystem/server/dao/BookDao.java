@@ -20,6 +20,8 @@ public interface BookDao
 
     List<BookEntity> getBooksByAuthor(String author);
 
+    List<BookEntity> searchBooks(String author, Long categoryId);
+
     // UPDATE
     BookEntity update(BookEntity bookEntity);
 

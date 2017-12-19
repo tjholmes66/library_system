@@ -23,6 +23,7 @@
 		<intercept-url pattern="/books/categoryId/*" access="hasAnyRole('ADMIN','USER')" />
 		<intercept-url pattern="/books/author/*" access="hasAnyRole('ADMIN','USER')" />
 		<intercept-url pattern="/books/username" access="hasAnyRole('ADMIN','USER')" />
+		<intercept-url pattern="/books/search" access="hasAnyRole('ADMIN','USER')" />
 				
 		<custom-filter position="PRE_AUTH_FILTER" ref="tokenFilter" />
 

@@ -40,4 +40,25 @@ public class BookControllerTest extends BaseControllerTests
         this.mockMvc.perform(requestBuilder).andDo(print()).andExpect(status().isOk());
     }
 
+    @Test
+    public void testSearchByAuthorAndCategoryId() throws Exception
+    {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "/search?author=Tolk&categoryId=3").with(user(_userTholmesAdmin));
+        this.mockMvc.perform(requestBuilder).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testSearchByAuthor() throws Exception
+    {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "/search?author=Tolk").with(user(_userTholmesAdmin));
+        this.mockMvc.perform(requestBuilder).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testSearchByCategoryId() throws Exception
+    {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "/search?categoryId=3").with(user(_userTholmesAdmin));
+        this.mockMvc.perform(requestBuilder).andDo(print()).andExpect(status().isOk());
+    }
+
 }

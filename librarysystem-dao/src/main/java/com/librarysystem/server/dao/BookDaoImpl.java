@@ -80,4 +80,14 @@ public class BookDaoImpl implements BookDao
         return bookEntity;
     }
 
+    @Override
+    public List<BookEntity> searchBooks(String author, Long categoryId)
+    {
+        Query query = this.sessionFactory.getCurrentSession().createQuery("from BookEntity b where (upper(b.bookAuthor) LIKE :author) AND (b.category.categoryId = :categoryId)");
+        query.setParameter("author", "%" + author.toUpperCase() + "%");
+        query.setParameter("categoryId", categoryId);
+        List<BookEntity> bookList = query.getResultList();
+        return bookList;
+    }
+
 }

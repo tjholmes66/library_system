@@ -73,4 +73,27 @@ public class BookDaoTest extends BaseDaoTests
         assertEquals(2, book.getCheckedOutUser().getUserId());
     }
 
+    // List<BookEntity> getBooksByAuthor(String author);
+    @Test
+    public void testSearchBooks()
+    {
+        String author = "Tolk";
+        Long categoryId = 3L;
+        List<BookEntity> bookList = bookDao.searchBooks(author, categoryId);
+        assertNotNull(bookList);
+        assertEquals(2, bookList.size());
+
+        author = "Tolk";
+        categoryId = 1L;
+        bookList = bookDao.searchBooks(author, categoryId);
+        assertNotNull(bookList);
+        assertEquals(0, bookList.size());
+
+        author = "TolkX";
+        categoryId = 3L;
+        bookList = bookDao.searchBooks(author, categoryId);
+        assertNotNull(bookList);
+        assertEquals(0, bookList.size());
+    }
+
 }

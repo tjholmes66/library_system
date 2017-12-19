@@ -100,4 +100,39 @@ public class BookServiceImplTest extends BaseServiceTests
         assertEquals(bookId, book.getBookId());
     }
 
+    // List<BookEntity> getBooksByAuthor(String author);
+    @Test
+    public void testSearchBooks()
+    {
+        String author = "Tolk";
+        Long categoryId = 3L;
+        List<BookEntity> bookList = bookService.searchBooks(author, categoryId);
+        assertNotNull(bookList);
+        assertEquals(2, bookList.size());
+
+        author = "Tolk";
+        categoryId = 1L;
+        bookList = bookService.searchBooks(author, categoryId);
+        assertNotNull(bookList);
+        assertEquals(0, bookList.size());
+
+        author = "TolkX";
+        categoryId = 3L;
+        bookList = bookService.searchBooks(author, categoryId);
+        assertNotNull(bookList);
+        assertEquals(0, bookList.size());
+
+        author = "Tolk";
+        categoryId = null;
+        bookList = bookService.searchBooks(author, categoryId);
+        assertNotNull(bookList);
+        assertEquals(2, bookList.size());
+
+        author = null;
+        categoryId = 3L;
+        bookList = bookService.searchBooks(author, categoryId);
+        assertNotNull(bookList);
+        assertEquals(2, bookList.size());
+    }
+
 }

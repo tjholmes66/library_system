@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.librarysystem.server.domain.BookEntity;
@@ -84,6 +85,17 @@ public class BookController extends BaseController
         User user = authenticate();
         List<BookEntity> bookList = service.getBooksByAuthor(author);
         logger.debug("BookController: FINISH: getBookListByAuthor: bookList=" + bookList.size());
+        invalidateUser();
+        return bookList;
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET, headers = "Accept=application/json")
+    public @ResponseBody List<BookEntity> searchBooks(@RequestParam(value = "author", required = false) String author, @RequestParam(value = "categoryId", required = false) Long categoryId)
+    {
+        logger.debug("BookController: searchBooks: START");
+        User user = authenticate();
+        List<BookEntity> bookList = service.searchBooks(author, categoryId);
+        logger.debug("BookController: searchBooks: bookList = " + bookList);
         invalidateUser();
         return bookList;
     }
