@@ -36,10 +36,19 @@ public class BookDaoImpl implements BookDao
     }
 
     @Override
-    public List<BookEntity> getBooksByUser(long userId)
+    public List<BookEntity> getBooksByUserId(long userId)
     {
         Query query = this.sessionFactory.getCurrentSession().createQuery("from BookEntity b where (b.checkedOutUser.userId = :userId)");
         query.setParameter("userId", userId);
+        List<BookEntity> bookList = query.getResultList();
+        return bookList;
+    }
+
+    @Override
+    public List<BookEntity> getBooksByUsername(String username)
+    {
+        Query query = this.sessionFactory.getCurrentSession().createQuery("from BookEntity b where (b.checkedOutUser.username = :username)");
+        query.setParameter("username", username);
         List<BookEntity> bookList = query.getResultList();
         return bookList;
     }

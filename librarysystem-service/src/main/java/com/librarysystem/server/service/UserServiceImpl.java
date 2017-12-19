@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService
             // ============================================================================
             loginResponseDto.setToken(tokenEntity.getToken());
 
-            List<BookEntity> bookList = bookDao.getBooksByUser(user.getUserId());
+            List<BookEntity> bookList = bookDao.getBooksByUserId(user.getUserId());
             for (BookEntity book : bookList)
             {
                 BookDTO bookDto = new BookDTO();

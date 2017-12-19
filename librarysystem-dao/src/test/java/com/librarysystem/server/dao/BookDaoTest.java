@@ -14,12 +14,22 @@ public class BookDaoTest extends BaseDaoTests
     @Autowired
     private BookDao bookDao;
 
-    // List<BookEntity> getBooksByUser(long userId);
+    // List<BookEntity> getBooksByUserId(long userId);
     @Test
     public void testGetBooksByUser()
     {
         long userId = 1;
-        List<BookEntity> bookList = bookDao.getBooksByUser(userId);
+        List<BookEntity> bookList = bookDao.getBooksByUserId(userId);
+        assertNotNull(bookList);
+        assertEquals(1, bookList.size());
+    }
+
+    // List<BookEntity> getBooksByUserId(long userId);
+    @Test
+    public void testGetBooksByUsername()
+    {
+        String username = "tholmes";
+        List<BookEntity> bookList = bookDao.getBooksByUsername(username);
         assertNotNull(bookList);
         assertEquals(1, bookList.size());
     }

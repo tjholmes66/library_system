@@ -2,18 +2,19 @@ package com.librarysystem.server.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public class BaseController
 {
     protected User authenticate()
     {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // =============================================================================================
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = null;
-        if (userDetails instanceof User)
+        if (principal instanceof User)
         {
-            user = ((User) userDetails);
+            user = ((User) principal);
         }
+        // =============================================================================================
         return user;
     }
 

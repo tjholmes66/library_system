@@ -12,7 +12,9 @@ public interface BookDao
     // RETRIEVE
     BookEntity getById(long bookId);
 
-    List<BookEntity> getBooksByUser(long userId);
+    List<BookEntity> getBooksByUserId(long userId);
+
+    List<BookEntity> getBooksByUsername(String username);
 
     List<BookEntity> getBooksByCategory(long categoryId);
 

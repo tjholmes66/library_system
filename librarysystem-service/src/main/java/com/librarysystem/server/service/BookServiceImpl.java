@@ -36,9 +36,16 @@ public class BookServiceImpl implements BookService
     }
 
     @Override
-    public List<BookEntity> getBooksByUser(long userId)
+    public List<BookEntity> getBooksByUserId(long userId)
     {
-        List<BookEntity> bookList = bookDao.getBooksByUser(userId);
+        List<BookEntity> bookList = bookDao.getBooksByUserId(userId);
+        return bookList;
+    }
+
+    @Override
+    public List<BookEntity> getBooksByUsername(String username)
+    {
+        List<BookEntity> bookList = bookDao.getBooksByUsername(username);
         return bookList;
     }
 

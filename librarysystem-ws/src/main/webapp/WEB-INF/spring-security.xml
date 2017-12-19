@@ -6,12 +6,10 @@
     http://www.springframework.org/schema/security 
     http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
-	<http pattern="/api/login/user/**/pwd/**" security="none" />
-	<http pattern="/api/login/callback*" security="none" />
 	
+	<http pattern="/api/login" security="none" />
 	<http pattern="/api/logout" security="none" />
-	
-	<http pattern="/api/registert" security="none" />
+	<http pattern="/api/register" security="none" />
 	
 	<http use-expressions="true" auto-config="false" entry-point-ref="http403EntryPoint">
 
@@ -19,6 +17,12 @@
 		
 		<intercept-url pattern="/roles" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/roles/**" access="hasRole('ADMIN')" />
+		
+		<intercept-url pattern="/books" access="hasAnyRole('ADMIN','USER')" />
+		<intercept-url pattern="/books/**" access="hasAnyRole('ADMIN','USER')" />
+		<intercept-url pattern="/books/categoryId/*" access="hasAnyRole('ADMIN','USER')" />
+		<intercept-url pattern="/books/author/*" access="hasAnyRole('ADMIN','USER')" />
+		<intercept-url pattern="/books/username" access="hasAnyRole('ADMIN','USER')" />
 				
 		<custom-filter position="PRE_AUTH_FILTER" ref="tokenFilter" />
 

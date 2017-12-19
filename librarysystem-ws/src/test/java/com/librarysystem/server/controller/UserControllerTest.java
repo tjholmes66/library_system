@@ -3,7 +3,6 @@ package com.librarysystem.server.controller;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -14,11 +13,6 @@ import com.librarysystem.server.dto.LoginUserDTO;
 public class UserControllerTest extends BaseControllerTests
 {
     private final static String BASE_URL = "/users";
-
-    @Before
-    public void setup()
-    {
-    }
 
     @Test
     public void testMockRegisterUser1() throws Exception

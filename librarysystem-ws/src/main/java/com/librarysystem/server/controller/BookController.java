@@ -35,10 +35,10 @@ public class BookController extends BaseController
     @RequestMapping(value = "/{bookId}", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody BookEntity getBookById(@PathVariable("bookId") long bookId)
     {
-        logger.debug("LocationController: START: getBookById: bookId=" + bookId);
+        logger.debug("BookController: START: getBookById: bookId=" + bookId);
         User user = authenticate();
         BookEntity bookEntity = service.getById(bookId);
-        logger.debug("LocationController: FINISH: getBookById: bookEntity=" + bookEntity);
+        logger.debug("BookController: FINISH: getBookById: bookEntity=" + bookEntity);
         invalidateUser();
         return bookEntity;
     }
@@ -46,10 +46,22 @@ public class BookController extends BaseController
     @RequestMapping(value = "/categoryId/{categoryId}", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody List<BookEntity> getBookListByCategory(@PathVariable("categoryId") long categoryId)
     {
-        logger.debug("LocationController: START: getBookListByCategory: categoryId=" + categoryId);
+        logger.debug("BookController: START: getBookListByCategory: categoryId=" + categoryId);
         User user = authenticate();
         List<BookEntity> bookList = service.getBooksByCategory(categoryId);
-        logger.debug("LocationController: FINISH: getBookListByCategory: bookList=" + bookList.size());
+        logger.debug("BookController: FINISH: getBookListByCategory: bookList=" + bookList.size());
+        invalidateUser();
+        return bookList;
+    }
+
+    @RequestMapping(value = "/username", method = RequestMethod.GET, headers = "Accept=application/json")
+    public @ResponseBody List<BookEntity> getBookListByUsername()
+    {
+        logger.debug("BookController: START: getBookListByUsername");
+        User user = authenticate();
+        logger.debug("BookController: START: getBookListByUsername: username = " + user.getUsername());
+        List<BookEntity> bookList = service.getBooksByUsername(user.getUsername());
+        logger.debug("BookController: FINISH: getBookListByCategory: bookList=" + bookList.size());
         invalidateUser();
         return bookList;
     }
@@ -57,10 +69,10 @@ public class BookController extends BaseController
     @RequestMapping(value = "/author/{author}", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody List<BookEntity> getBookListByAuthor(@PathVariable("author") String author)
     {
-        logger.debug("LocationController: START: getBookListByAuthor: author=" + author);
+        logger.debug("BookController: START: getBookListByAuthor: author=" + author);
         User user = authenticate();
         List<BookEntity> bookList = service.getBooksByAuthor(author);
-        logger.debug("LocationController: FINISH: getBookListByAuthor: bookList=" + bookList.size());
+        logger.debug("BookController: FINISH: getBookListByAuthor: bookList=" + bookList.size());
         invalidateUser();
         return bookList;
     }

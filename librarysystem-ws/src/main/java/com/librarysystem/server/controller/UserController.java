@@ -27,6 +27,8 @@ public class UserController extends BaseController
     // The user provides the following fields:
     // first name, last name, email, phone (optional), date of birth (optional).
     // Response will return a success status.
+
+    // NO SECURITY
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json", headers = "content-type=application/json")
     public @ResponseBody boolean registerUser(@RequestBody RegisterUserDTO registerUserDTO) throws Exception
     {
@@ -34,6 +36,7 @@ public class UserController extends BaseController
         return response;
     }
 
+    // NO SECURITY
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json", headers = "content-type=application/json")
     public @ResponseBody LoginResponseDTO registerUser(@RequestBody LoginUserDTO loginUserDto) throws Exception
     {
