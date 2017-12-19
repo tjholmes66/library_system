@@ -1,0 +1,52 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://www.springframework.org/schema/security 
+    http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<http pattern="/api/login/user/**/pwd/**" security="none" />
+	<http pattern="/api/login/callback*" security="none" />
+	
+	<http pattern="/api/logout" security="none" />
+	
+	<http pattern="/api/registert" security="none" />
+	
+	<http use-expressions="true" auto-config="false" entry-point-ref="http403EntryPoint">
+
+		<csrf disabled="true" />
+		
+		<intercept-url pattern="/roles" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/roles/**" access="hasRole('ADMIN')" />
+				
+		<custom-filter position="PRE_AUTH_FILTER" ref="tokenFilter" />
+
+	</http>
+
+	<beans:bean id="tokenFilter"
+		class="org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter">
+		<beans:property name="principalRequestHeader" value="auth_token" />
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+	</beans:bean>
+
+	<beans:bean id="preauthAuthProvider"
+		class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+
+		<beans:property name="preAuthenticatedUserDetailsService">
+			<beans:bean id="userDetailsServiceWrapper"
+				class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+				<beans:property name="userDetailsService" ref="customUserDetailsService" />
+			</beans:bean>
+		</beans:property>
+
+	</beans:bean>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="preauthAuthProvider" />
+	</authentication-manager>
+
+	<beans:bean id="customUserDetailsService" class="com.librarysystem.server.security.CustomUserDetailsService"></beans:bean>
+	<beans:bean id="http403EntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"></beans:bean>
+
+</beans:beans>

@@ -12,6 +12,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 		<module>librarysystem-entity</module>
 		<module>librarysystem-dao</module>
 		<module>librarysystem-service</module>
+		<module>librarysystem-ws</module>
 	</modules>
 
 	<properties>

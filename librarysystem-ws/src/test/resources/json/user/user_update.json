@@ -1,0 +1,20 @@
+{
+    "userId":2, 
+    "enabled":true, 
+    "username":"robert.trail@bullhorn.com", 
+    "prefix":"Mr.", 
+    "firstName":"Robert", 
+    "lastName":"Trail", 
+    "role":{
+        "roleId":2
+    }, 
+    "enteredBy":1, 
+    "enteredDate":"2016-09-09T00:00:00", 
+    "editedBy":1, 
+    "editedDate":"2016-10-28T00:00:00", 
+    "emailAddress":"robertjtrail@outlook.com", 
+    "workPhone":"111-222-3333", 
+    "cellPhone":"123-123-4567", 
+    "middleInitial":"X", 
+    "suffix":"III"
+}

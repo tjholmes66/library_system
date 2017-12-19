@@ -1,6 +1,7 @@
 package com.librarysystem.server.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -85,6 +86,9 @@ public class UserEntity implements Serializable
 
     @Column(name = "reset_key")
     private String resetKey;
+
+    @Column(name = "dob")
+    private LocalDate dob;
 
     public long getUserId()
     {
@@ -266,12 +270,23 @@ public class UserEntity implements Serializable
         this.resetKey = resetKey;
     }
 
+    public LocalDate getDob()
+    {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob)
+    {
+        this.dob = dob;
+    }
+
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((cellPhone == null) ? 0 : cellPhone.hashCode());
+        result = prime * result + ((dob == null) ? 0 : dob.hashCode());
         result = prime * result + (int) (editedBy ^ (editedBy >>> 32));
         result = prime * result + ((editedDate == null) ? 0 : editedDate.hashCode());
         result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
@@ -308,6 +323,13 @@ public class UserEntity implements Serializable
                 return false;
         }
         else if (!cellPhone.equals(other.cellPhone))
+            return false;
+        if (dob == null)
+        {
+            if (other.dob != null)
+                return false;
+        }
+        else if (!dob.equals(other.dob))
             return false;
         if (editedBy != other.editedBy)
             return false;
@@ -416,7 +438,7 @@ public class UserEntity implements Serializable
     {
         return "UserEntity [userId=" + userId + ", enabled=" + enabled + ", username=" + username + ", password=" + password + ", prefix=" + prefix + ", firstName=" + firstName + ", middleInitial="
             + middleInitial + ", lastName=" + lastName + ", suffix=" + suffix + ", role=" + role + ", enteredBy=" + enteredBy + ", enteredDate=" + enteredDate + ", editedBy=" + editedBy
-            + ", editedDate=" + editedDate + ", emailAddress=" + emailAddress + ", workPhone=" + workPhone + ", cellPhone=" + cellPhone + ", resetKey=" + resetKey + "]";
+            + ", editedDate=" + editedDate + ", emailAddress=" + emailAddress + ", workPhone=" + workPhone + ", cellPhone=" + cellPhone + ", resetKey=" + resetKey + ", dob=" + dob + "]";
     }
 
 }

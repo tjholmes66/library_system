@@ -1,5 +1,6 @@
 package com.librarysystem.server.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.librarysystem.server.domain.RoleEntity;
 import com.librarysystem.server.domain.UserEntity;
+import com.librarysystem.server.dto.RegisterUserDTO;
 
 public class UserServiceImplTest extends BaseServiceTests
 {
@@ -270,6 +272,105 @@ public class UserServiceImplTest extends BaseServiceTests
         assertEquals(emailAddress, userEntity.getEmailAddress());
 
         System.out.println("testGetUserEntityByEmailAddress: FINISH");
+    }
+
+    @Test
+    public void testRegisterUser1()
+    {
+        System.out.println("testRegisterUser: START");
+
+        RegisterUserDTO registerUserDto = new RegisterUserDTO();
+
+        String firstName = "first_name";
+        String lastName = "last_name";
+        String email = "test@email.com";
+        String phone = "123-456-7890";
+
+        registerUserDto.setDob(LocalDate.now());
+        registerUserDto.setEmail(email);
+        registerUserDto.setFirstName(firstName);
+        registerUserDto.setLastName(lastName);
+        registerUserDto.setPhone(phone);
+
+        boolean success = userService.register(registerUserDto);
+        assertEquals(true, success);
+
+        registerUserDto.setFirstName(null);
+        success = userService.register(registerUserDto);
+        assertEquals(false, success);
+        registerUserDto.setFirstName("");
+        success = userService.register(registerUserDto);
+        assertEquals(false, success);
+
+        firstName = "first_name";
+        registerUserDto.setFirstName(firstName);
+        registerUserDto.setLastName(null);
+        success = userService.register(registerUserDto);
+        assertEquals(false, success);
+        registerUserDto.setLastName("");
+        success = userService.register(registerUserDto);
+        assertEquals(false, success);
+
+        lastName = "last_name";
+        registerUserDto.setLastName(lastName);
+        registerUserDto.setEmail(null);
+        success = userService.register(registerUserDto);
+        assertEquals(false, success);
+        registerUserDto.setEmail("");
+        success = userService.register(registerUserDto);
+        assertEquals(false, success);
+
+        firstName = "first_nameX";
+        lastName = "last_nameX";
+        email = "testX@emailX.com";
+
+        registerUserDto.setFirstName(firstName);
+        registerUserDto.setLastName(lastName);
+        registerUserDto.setEmail(email);
+        registerUserDto.setPhone(null);
+        registerUserDto.setDob(null);
+
+        // should be true becauuse first, last, and email are there
+        // abd phone and dob are optional
+        success = userService.register(registerUserDto);
+        assertEquals(true, success);
+    }
+
+    @Test
+    public void testRegisterUser2()
+    {
+        System.out.println("testRegisterUser: START");
+
+        RegisterUserDTO registerUserDto = new RegisterUserDTO();
+
+        String firstName = "first_name";
+        String lastName = "last_name";
+        String email = "test@email.com";
+
+        registerUserDto.setFirstName(firstName);
+        registerUserDto.setLastName(lastName);
+        registerUserDto.setEmail(email);
+
+        boolean success = userService.register(registerUserDto);
+        assertEquals(true, success);
+    }
+
+    @Test
+    public void testRegisterUser3()
+    {
+        System.out.println("testRegisterUser: START");
+
+        RegisterUserDTO registerUserDto = new RegisterUserDTO();
+
+        String lastName = "last_name";
+        String email = "test@email.com";
+
+        registerUserDto.setLastName(lastName);
+        registerUserDto.setEmail(email);
+
+        // should be false because missing first name
+        boolean success = userService.register(registerUserDto);
+        assertEquals(false, success);
     }
 
 }
