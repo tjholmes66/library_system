@@ -36,7 +36,7 @@ public class BookServiceImplTest extends BaseServiceTests
     public void testGetBooksByUserId()
     {
         long userId = 1;
-        List<BookEntity> bookList = bookDao.getBooksByUserId(userId);
+        List<BookEntity> bookList = bookService.getBooksByUserId(userId);
         assertNotNull(bookList);
         assertEquals(1, bookList.size());
     }
@@ -46,7 +46,7 @@ public class BookServiceImplTest extends BaseServiceTests
     public void testGetBooksByUsername()
     {
         String username = "tholmes";
-        List<BookEntity> bookList = bookDao.getBooksByUsername(username);
+        List<BookEntity> bookList = bookService.getBooksByUsername(username);
         assertNotNull(bookList);
         assertEquals(1, bookList.size());
     }
@@ -56,7 +56,7 @@ public class BookServiceImplTest extends BaseServiceTests
     public void testGetBooksByCategory()
     {
         long categoryId = 3;
-        List<BookEntity> bookList = bookDao.getBooksByCategory(categoryId);
+        List<BookEntity> bookList = bookService.getBooksByCategory(categoryId);
         assertNotNull(bookList);
         assertEquals(2, bookList.size());
     }
@@ -66,7 +66,7 @@ public class BookServiceImplTest extends BaseServiceTests
     public void testGetBooksByAuthor()
     {
         String author = "Tolk";
-        List<BookEntity> bookList = bookDao.getBooksByAuthor(author);
+        List<BookEntity> bookList = bookService.getBooksByAuthor(author);
         assertNotNull(bookList);
         assertEquals(2, bookList.size());
     }
@@ -76,7 +76,7 @@ public class BookServiceImplTest extends BaseServiceTests
     public void testUpdate()
     {
         long bookId = 2;
-        BookEntity book = bookDao.getById(bookId);
+        BookEntity book = bookService.getById(bookId);
         assertNotNull(book);
         assertEquals(bookId, book.getBookId());
 
@@ -85,9 +85,19 @@ public class BookServiceImplTest extends BaseServiceTests
         user.setUserId(2);
         book.setCheckedOutUser(user);
 
-        book = bookDao.update(book);
+        book = bookService.update(book);
         assertNotNull(book);
         assertEquals(2, book.getCheckedOutUser().getUserId());
+    }
+
+    // public BookEntity renewBookById(long bookId);
+    @Test
+    public void testRenewBookById()
+    {
+        long bookId = 2;
+        BookEntity book = bookService.renewBookById(bookId);
+        assertNotNull(book);
+        assertEquals(bookId, book.getBookId());
     }
 
 }

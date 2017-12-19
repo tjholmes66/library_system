@@ -1,5 +1,6 @@
 package com.librarysystem.server.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -15,6 +16,8 @@ import com.librarysystem.server.domain.BookEntity;
 @Service("bookService")
 public class BookServiceImpl implements BookService
 {
+
+    private static final int RENEW_DAYS = 14;
 
     private static final Log logger = LogFactory.getLog(BookServiceImpl.class);
 
@@ -67,6 +70,17 @@ public class BookServiceImpl implements BookService
     public BookEntity update(BookEntity bookEntity)
     {
         BookEntity book = bookDao.update(bookEntity);
+        return book;
+    }
+
+    @Override
+    public BookEntity renewBookById(long bookId)
+    {
+        BookEntity book = bookDao.getById(bookId);
+        LocalDate today = LocalDate.now();
+        LocalDate checkedOutDate = today.plusDays(RENEW_DAYS);
+        book.setCheckedOutDate(checkedOutDate);
+        book = bookDao.update(book);
         return book;
     }
 

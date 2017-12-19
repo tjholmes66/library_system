@@ -43,6 +43,17 @@ public class BookController extends BaseController
         return bookEntity;
     }
 
+    @RequestMapping(value = "/renew/{bookId}", method = RequestMethod.GET, headers = "Accept=application/json")
+    public @ResponseBody BookEntity renewBookById(@PathVariable("bookId") long bookId)
+    {
+        logger.debug("BookController: START: renewBookById: bookId=" + bookId);
+        User user = authenticate();
+        BookEntity bookEntity = service.renewBookById(bookId);
+        logger.debug("BookController: FINISH: renewBookById: bookEntity=" + bookEntity);
+        invalidateUser();
+        return bookEntity;
+    }
+
     @RequestMapping(value = "/categoryId/{categoryId}", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody List<BookEntity> getBookListByCategory(@PathVariable("categoryId") long categoryId)
     {

@@ -23,5 +23,7 @@ public interface BookService
     // UPDATE
     BookEntity update(BookEntity bookEntity);
 
+    BookEntity renewBookById(long bookId);
+
     // DELETE
 }
