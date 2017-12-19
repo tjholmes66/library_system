@@ -1,6 +1,7 @@
 package com.librarysystem.server.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -10,9 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.librarysystem.server.dao.BookDao;
 import com.librarysystem.server.dao.UserDao;
+import com.librarysystem.server.domain.BookEntity;
 import com.librarysystem.server.domain.RoleEntity;
 import com.librarysystem.server.domain.UserEntity;
+import com.librarysystem.server.dto.LoginUserDTO;
 import com.librarysystem.server.dto.RegisterUserDTO;
 
 @Transactional
@@ -23,6 +27,9 @@ public class UserServiceImpl implements UserService
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private BookDao bookDao;
 
     @Override
     public UserEntity create(UserEntity userEntity)
@@ -125,6 +132,22 @@ public class UserServiceImpl implements UserService
         }
 
         return response;
+    }
+
+    @Override
+    public List<BookEntity> login(LoginUserDTO loginUserDto)
+    {
+        String username = loginUserDto.getUsername();
+        String password = loginUserDto.getPassword();
+        UserEntity user = userDao.getUserByUsernameAndPassword(username, password);
+
+        List<BookEntity> bookList = new ArrayList<BookEntity>();
+        if (user != null)
+        {
+            bookList = bookDao.getBooksByUser(user.getUserId());
+        }
+
+        return bookList;
     }
 
 }
