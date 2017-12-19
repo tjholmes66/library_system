@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.librarysystem.server.domain.RoleEntity;
 import com.librarysystem.server.domain.UserEntity;
+import com.librarysystem.server.dto.LoginResponseDTO;
+import com.librarysystem.server.dto.LoginUserDTO;
 import com.librarysystem.server.dto.RegisterUserDTO;
 
 public class UserServiceImplTest extends BaseServiceTests
@@ -371,6 +373,51 @@ public class UserServiceImplTest extends BaseServiceTests
         // should be false because missing first name
         boolean success = userService.register(registerUserDto);
         assertEquals(false, success);
+    }
+
+    @Test
+    public void testLogin_Success()
+    {
+        // user DOES exist, can find based on username/password
+        String username = "tholmes";
+        String password = "password";
+        LoginUserDTO loginUserDto = new LoginUserDTO();
+        loginUserDto.setUsername(username);
+        loginUserDto.setPassword(password);
+
+        LoginResponseDTO loginResponseDto = userService.login(loginUserDto);
+        assertNotNull(loginResponseDto);
+        System.out.println("loginResponseDto = " + loginResponseDto.toString());
+    }
+
+    @Test
+    public void testLogin_Success_NoBooks()
+    {
+        // user DOES exist, can find based on username/password
+        String username = "jsmith";
+        String password = "password";
+        LoginUserDTO loginUserDto = new LoginUserDTO();
+        loginUserDto.setUsername(username);
+        loginUserDto.setPassword(password);
+
+        LoginResponseDTO loginResponseDto = userService.login(loginUserDto);
+        assertNotNull(loginResponseDto);
+        System.out.println("loginResponseDto = " + loginResponseDto.toString());
+    }
+
+    @Test
+    public void testLogin_Failure()
+    {
+        // user does NOT exist, cannot find based on username/password
+        String username = "tholmesX";
+        String password = "passwordX";
+        LoginUserDTO loginUserDto = new LoginUserDTO();
+        loginUserDto.setUsername(username);
+        loginUserDto.setPassword(password);
+
+        LoginResponseDTO loginResponseDto = userService.login(loginUserDto);
+        assertNotNull(loginResponseDto);
+        System.out.println("loginResponseDto = " + loginResponseDto.toString());
     }
 
 }

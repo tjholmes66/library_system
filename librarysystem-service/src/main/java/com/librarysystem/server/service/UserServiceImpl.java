@@ -1,5 +1,6 @@
 package com.librarysystem.server.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.librarysystem.server.dao.BookDao;
+import com.librarysystem.server.dao.TokenDao;
 import com.librarysystem.server.dao.UserDao;
 import com.librarysystem.server.domain.BookEntity;
 import com.librarysystem.server.domain.RoleEntity;
+import com.librarysystem.server.domain.TokenEntity;
 import com.librarysystem.server.domain.UserEntity;
+import com.librarysystem.server.dto.BookDTO;
+import com.librarysystem.server.dto.LoginResponseDTO;
 import com.librarysystem.server.dto.LoginUserDTO;
 import com.librarysystem.server.dto.RegisterUserDTO;
+import com.librarysystem.server.util.ShortUUID;
 
 @Transactional
 @Service("userService")
@@ -25,11 +31,16 @@ public class UserServiceImpl implements UserService
 {
     private static final Log logger = LogFactory.getLog(UserServiceImpl.class);
 
+    private static final int CHECKOUT_TIME = 14;
+
     @Autowired
     private UserDao userDao;
 
     @Autowired
     private BookDao bookDao;
+
+    @Autowired
+    private TokenDao tokenDao;
 
     @Override
     public UserEntity create(UserEntity userEntity)
@@ -135,19 +146,48 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public List<BookEntity> login(LoginUserDTO loginUserDto)
+    public LoginResponseDTO login(LoginUserDTO loginUserDto)
     {
+        LoginResponseDTO loginResponseDto = new LoginResponseDTO();
+
         String username = loginUserDto.getUsername();
         String password = loginUserDto.getPassword();
         UserEntity user = userDao.getUserByUsernameAndPassword(username, password);
 
-        List<BookEntity> bookList = new ArrayList<BookEntity>();
+        LocalDate today = LocalDate.now();
+
+        List<BookDTO> bookDtoList = new ArrayList<BookDTO>();
         if (user != null)
         {
-            bookList = bookDao.getBooksByUser(user.getUserId());
+            // ============================================================================
+            TokenEntity tokenEntity = new TokenEntity();
+            tokenEntity.setCreated(LocalDateTime.now());
+            tokenEntity.setToken(ShortUUID.shortUUID());
+            tokenEntity.setUser(user);
+            tokenEntity = tokenDao.create(tokenEntity);
+            // ============================================================================
+            loginResponseDto.setToken(tokenEntity.getToken());
+
+            List<BookEntity> bookList = bookDao.getBooksByUser(user.getUserId());
+            for (BookEntity book : bookList)
+            {
+                BookDTO bookDto = new BookDTO();
+                bookDto.setBook(book);
+                bookDto.setUser(user);
+
+                LocalDate dueDate = book.getCheckedOutDate().plusDays(CHECKOUT_TIME);
+                bookDto.setDueDate(dueDate);
+
+                boolean overDue = dueDate.isBefore(today);
+                bookDto.setOverdue(overDue);
+
+                bookDtoList.add(bookDto);
+            }
+            loginResponseDto.setBookList(bookDtoList);
+
         }
 
-        return bookList;
+        return loginResponseDto;
     }
 
 }

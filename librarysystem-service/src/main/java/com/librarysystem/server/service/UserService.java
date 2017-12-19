@@ -2,8 +2,8 @@ package com.librarysystem.server.service;
 
 import java.util.List;
 
-import com.librarysystem.server.domain.BookEntity;
 import com.librarysystem.server.domain.UserEntity;
+import com.librarysystem.server.dto.LoginResponseDTO;
 import com.librarysystem.server.dto.LoginUserDTO;
 import com.librarysystem.server.dto.RegisterUserDTO;
 
@@ -27,7 +27,7 @@ public interface UserService
 
     UserEntity getUserByEmailAddress(String emailAddress);
 
-    List<BookEntity> login(LoginUserDTO loginUserDto);
+    LoginResponseDTO login(LoginUserDTO loginUserDto);
 
     // UPDATE
     UserEntity update(UserEntity userEntity);

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.librarysystem.server.dto.LoginResponseDTO;
 import com.librarysystem.server.dto.LoginUserDTO;
 import com.librarysystem.server.dto.RegisterUserDTO;
 import com.librarysystem.server.service.UserService;
@@ -34,10 +35,10 @@ public class UserController extends BaseController
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json", headers = "content-type=application/json")
-    public @ResponseBody boolean registerUser(@RequestBody LoginUserDTO loginUserDto) throws Exception
+    public @ResponseBody LoginResponseDTO registerUser(@RequestBody LoginUserDTO loginUserDto) throws Exception
     {
-        boolean response = userService.login(loginUserDto);
-        return response;
+        LoginResponseDTO loginResponseDto = userService.login(loginUserDto);
+        return loginResponseDto;
     }
 
 }

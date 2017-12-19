@@ -3,6 +3,7 @@ package com.librarysystem.server.dto;
 import java.io.Serializable;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class LoginResponseDTO implements Serializable
 {
 
